@@ -16,12 +16,12 @@
 */
 
 const firebaseConfig = {
-    apiKey: "PASTE_YOUR_API_KEY_HERE",
-    authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
-    projectId: "PASTE_YOUR_PROJECT_ID_HERE",
-    storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
-    messagingSenderId: "PASTE_YOUR_SENDER_ID",
-    appId: "PASTE_YOUR_APP_ID_HERE"
+    apiKey: "AIzaSyB9FUYiWq5iz1WtVrqm8D5HDFq685os-bo",
+    authDomain: "raj-indra-portal-b5eda.firebaseapp.com",
+    projectId: "raj-indra-portal-b5eda",
+    storageBucket: "raj-indra-portal-b5eda.firebasestorage.app",
+    messagingSenderId: "181766440267",
+    appId: "1:181766440267:web:70b8d87701838f1ea514ce"
 };
 
 // ===== DO NOT MODIFY BELOW THIS LINE =====
