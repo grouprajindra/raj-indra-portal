@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0B0F1A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Employee Panel — Raj Indra Professional</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+<div class="panel-layout">
+    <!-- Sidebar Overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <button class="sidebar-close-btn" onclick="closeSidebar()">×</button>
+        <div class="sidebar-header">
+            <img src="assets/logo.svg" alt="Logo">
+            <div class="brand">Raj Indra<small>Employee Panel</small></div>
+        </div>
+        <nav class="sidebar-nav"><ul>
+            <li><a href="#" class="nav-link active" data-page="dashboard" id="nav-dashboard">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                <span>Dashboard</span></a></li>
+            <li><a href="#" class="nav-link" data-page="profile" id="nav-profile">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>My Profile</span></a></li>
+            <li><a href="#" class="nav-link" data-page="leads" id="nav-leads">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>My Leads</span></a></li>
+            <li><a href="#" class="nav-link" data-page="finance" id="nav-finance">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>Financial</span></a></li>
+        </ul></nav>
+        <div class="sidebar-footer">
+            <div class="user-card" onclick="DB.logout();location.href='index.html'">
+                <div class="user-avatar" id="emp-avatar">E</div>
+                <div class="info"><div class="name" id="emp-name">Employee</div><div class="role" id="emp-desg">Associate</div></div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-panel">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="menu-btn" onclick="openSidebar()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h2 style="font-size:1.05rem;font-weight:600" id="topbar-title">Dashboard</h2>
+            </div>
+            <div class="topbar-right">
+                <button class="topbar-btn" onclick="toggleNotifPanel()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                    <span class="notif-dot" id="notif-count" style="display:none">0</span>
+                </button>
+                <button class="topbar-btn" onclick="DB.logout();location.href='index.html'" title="Logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <!-- DASHBOARD -->
+            <div class="page-section active" id="sec-dashboard">
+                <div class="page-title"><div><h1 id="dash-greeting">Welcome!</h1><p>Your performance overview</p></div></div>
+                <div class="metrics-row" id="e-dash-metrics"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" class="dash-charts-grid">
+                    <div class="chart-card"><h3>My Lead Status</h3><div id="e-dash-chart"></div></div>
+                    <div class="chart-card"><h3>Recent Activity</h3><div id="e-dash-activity"></div></div>
+                </div>
+            </div>
+
+            <!-- PROFILE -->
+            <div class="page-section" id="sec-profile">
+                <div class="page-title"><div><h1>My Profile</h1><p>View and edit your profile (changes need admin approval)</p></div>
+                <div class="actions"><button class="btn btn-sm btn-primary" onclick="showMyIdCard()">🪪 View ID Card</button></div></div>
+
+                <!-- Photo Upload Section -->
+                <div class="profile-photo-section" id="profile-photo-section">
+                    <div class="profile-photo-large" id="profile-photo-large" onclick="document.getElementById('profile-photo-input').click()">
+                        <div class="photo-overlay">📷 Change</div>
+                    </div>
+                    <div class="profile-photo-info">
+                        <h3 id="profile-name-display">Employee Name</h3>
+                        <div class="emp-id-badge" id="profile-empid-display">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                            <span>RIG-EMP-001</span>
+                        </div>
+                        <div style="margin-top:10px">
+                            <label class="photo-upload-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                Upload Photo for ID Card
+                                <input type="file" id="profile-photo-input" accept="image/*" capture="user" onchange="handleProfilePhoto(this)">
+                            </label>
+                        </div>
+                        <p style="font-size:0.72rem; color:var(--text-muted); margin-top:6px;">This photo will appear on your ID card</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width:700px">
+                    <form id="profile-form" onsubmit="saveProfile(event)">
+                        <div class="form-row"><div class="form-group"><label>Full Name</label><input class="form-input" id="p-name"></div>
+                        <div class="form-group"><label>Employee ID</label><input class="form-input" id="p-empid" disabled></div></div>
+                        <div class="form-row"><div class="form-group"><label>Email</label><input class="form-input" id="p-email" disabled></div>
+                        <div class="form-group"><label>Phone</label><input class="form-input" id="p-phone" inputmode="tel"></div></div>
+                        <div class="form-row"><div class="form-group"><label>Designation</label><input class="form-input" id="p-desg"></div>
+                        <div class="form-group"><label>Department</label><input class="form-input" id="p-dept"></div></div>
+                        <div class="form-group"><label>Address</label><input class="form-input" id="p-addr"></div>
+                        <div class="form-row"><div class="form-group"><label>Aadhar</label><input class="form-input" id="p-aadhar" inputmode="numeric"></div>
+                        <div class="form-group"><label>PAN</label><input class="form-input" id="p-pan"></div></div>
+                        <div class="form-row"><div class="form-group"><label>Bank Name</label><input class="form-input" id="p-bank"></div>
+                        <div class="form-group"><label>Account No</label><input class="form-input" id="p-acc" inputmode="numeric"></div></div>
+                        <div class="form-group"><label>IFSC Code</label><input class="form-input" id="p-ifsc"></div>
+                        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+                            <button type="submit" class="btn btn-primary">Save Changes (Needs Approval)</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- LEADS -->
+            <div class="page-section" id="sec-leads">
+                <div class="page-title"><div><h1>My Leads</h1><p>Leads assigned to you. Update status as work progresses.</p></div>
+                <div class="actions"><button class="btn btn-sm btn-primary" onclick="openAddLeadModal()">+ Add Lead</button></div></div>
+                <div class="tab-group" id="lead-tabs">
+                    <button class="tab-btn active" data-f="all" onclick="setLeadTab(this)">All</button>
+                    <button class="tab-btn" data-f="pending" onclick="setLeadTab(this)">Pending</button>
+                    <button class="tab-btn" data-f="in-progress" onclick="setLeadTab(this)">In Progress</button>
+                    <button class="tab-btn" data-f="successful" onclick="setLeadTab(this)">Successful</button>
+                    <button class="tab-btn" data-f="denied" onclick="setLeadTab(this)">Denied</button>
+                </div>
+                <div class="table-card"><div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Client</th><th>Service</th><th>Payout (₹)</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="e-lead-tbody"></tbody></table></div></div>
+            </div>
+
+            <!-- FINANCE -->
+            <div class="page-section" id="sec-finance">
+                <div class="page-title"><div><h1>My Financials</h1><p>Your live income and invoices</p></div>
+                <div class="actions"><button class="btn btn-sm btn-primary" onclick="openPayoutInvoiceModal()">📄 Request Invoice</button></div></div>
+                <div class="metrics-row" id="e-fin-metrics"></div>
+                <div class="table-card">
+                    <div class="table-toolbar"><div class="left"><h3 style="font-size:0.95rem">My Invoices</h3></div>
+                    <div class="right"><button class="btn btn-sm btn-outline" onclick="exportMyData()">⬇ Export Data</button></div></div>
+                    <div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Invoice #</th><th>Service</th><th>Amount (₹)</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="e-inv-tbody"></tbody></table></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Notification Panel -->
+<div class="notif-panel" id="notif-panel">
+    <div class="notif-panel-header"><h3>Notifications</h3><button class="modal-close" onclick="toggleNotifPanel()">×</button></div>
+    <div class="notif-list" id="notif-list"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+        <div class="modal-header"><h2 id="modal-title">Title</h2><button class="modal-close" onclick="closeModal()">×</button></div>
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-footer" id="modal-footer"></div>
+    </div>
+</div>
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Firebase SDK (compat for static sites) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/database.js"></script>
+<script>
+// ===== AUTH =====
+var session = DB.getSession();
+if (!session || session.role !== 'employee') { location.href = 'index.html'; }
+var empUser = session.user;
+document.getElementById('emp-name').textContent = empUser.name;
+document.getElementById('emp-desg').textContent = empUser.designation || 'Associate';
+
+// Set avatar - photo or initials
+var initials = empUser.name.split(' ').map(function(n){return n[0]}).join('');
+if (empUser.photo) {
+    document.getElementById('emp-avatar').innerHTML = '<img src="' + empUser.photo + '" alt="">';
+} else {
+    document.getElementById('emp-avatar').textContent = initials;
+}
+
+// ===== SIDEBAR =====
+function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebar-overlay').classList.add('active');
+}
+function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('active');
+}
+
+// ===== NAV =====
+document.querySelectorAll('.nav-link').forEach(function(l) {
+    l.addEventListener('click', function(e) {
+        e.preventDefault();
+        var page = l.dataset.page;
+        document.querySelectorAll('.nav-link').forEach(function(n){n.classList.remove('active')});
+        l.classList.add('active');
+        document.querySelectorAll('.page-section').forEach(function(s){s.classList.remove('active')});
+        document.getElementById('sec-' + page).classList.add('active');
+        document.getElementById('topbar-title').textContent = l.querySelector('span').textContent;
+        closeSidebar();
+        refreshPage(page);
+    });
+});
+
+function refreshPage(page) {
+    empUser = DB.getById(DB.USERS, empUser.id); // refresh
+    if (page==='dashboard') renderDashboard();
+    if (page==='profile') renderProfile();
+    if (page==='leads') renderLeads();
+    if (page==='finance') renderFinance();
+}
+
+// ===== DASHBOARD =====
+function renderDashboard() {
+    var fin = DB.getFinancials(empUser.id);
+    document.getElementById('dash-greeting').textContent = 'Welcome, ' + empUser.name.split(' ')[0] + '!';
+    document.getElementById('e-dash-metrics').innerHTML =
+        '<div class="metric-card"><div class="label">Total Leads</div><div class="value">' + fin.totalLeads + '</div></div>' +
+        '<div class="metric-card"><div class="label">Successful</div><div class="value" style="color:#10B981">' + fin.successful + '</div></div>' +
+        '<div class="metric-card"><div class="label">My Earnings</div><div class="value" style="color:#F59E0B">₹' + fin.totalPayout.toLocaleString() + '</div></div>' +
+        '<div class="metric-card"><div class="label">Pending</div><div class="value" style="color:#3B82F6">' + fin.pending + '</div></div>';
+
+    var statuses = [{n:'Pending',c:fin.pending,cl:'#3B82F6'},{n:'In Progress',c:fin.inProgress,cl:'#F59E0B'},{n:'Successful',c:fin.successful,cl:'#10B981'},{n:'Denied',c:fin.denied,cl:'#EF4444'}];
+    var maxC = Math.max.apply(null, statuses.map(function(s){return s.c}).concat([1]));
+    document.getElementById('e-dash-chart').innerHTML = statuses.map(function(s) {
+        return '<div class="bar-chart-row"><div class="label">' + s.n + '</div><div class="track"><div class="fill" style="width:' + (s.c/maxC*100) + '%;background:' + s.cl + '"></div></div><div class="val">' + s.c + '</div></div>';
+    }).join('');
+
+    var notifs = DB.getNotifications(empUser.id).slice(0,5);
+    document.getElementById('e-dash-activity').innerHTML = notifs.length ? notifs.map(function(n) {
+        return '<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:0.82rem"><div>' + n.message + '</div><div style="font-size:0.7rem;color:var(--text-muted);margin-top:3px">' + timeAgo(n.createdAt) + '</div></div>';
+    }).join('') : '<div class="empty-state"><h3>No recent activity</h3></div>';
+    updateNotifBadge();
+}
+
+// ===== PROFILE =====
+function renderProfile() {
+    empUser = DB.getById(DB.USERS, empUser.id);
+    var initials = empUser.name.split(' ').map(function(n){return n[0]}).join('');
+
+    // Photo section
+    var photoEl = document.getElementById('profile-photo-large');
+    if (empUser.photo) {
+        photoEl.innerHTML = '<img src="' + empUser.photo + '" alt="Photo"><div class="photo-overlay">📷 Change</div>';
+    } else {
+        photoEl.innerHTML = initials + '<div class="photo-overlay">📷 Upload</div>';
+    }
+
+    document.getElementById('profile-name-display').textContent = empUser.name;
+    document.getElementById('profile-empid-display').querySelector('span').textContent = empUser.employeeId;
+
+    document.getElementById('p-name').value = empUser.name;
+    document.getElementById('p-empid').value = empUser.employeeId;
+    document.getElementById('p-email').value = empUser.email;
+    document.getElementById('p-phone').value = empUser.phone||'';
+    document.getElementById('p-desg').value = empUser.designation||'';
+    document.getElementById('p-dept').value = empUser.department||'';
+    document.getElementById('p-addr').value = empUser.address||'';
+    document.getElementById('p-aadhar').value = empUser.aadhar||'';
+    document.getElementById('p-pan').value = empUser.pan||'';
+    document.getElementById('p-bank').value = empUser.bankName||'';
+    document.getElementById('p-acc').value = empUser.bankAccount||'';
+    document.getElementById('p-ifsc').value = empUser.ifsc||'';
+}
+
+// Handle profile photo upload
+async function handleProfilePhoto(input) {
+    var file = input.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('Photo size must be less than 5MB', 'error');
+        return;
+    }
+
+    try {
+        var compressed = await DB.processPhoto(file);
+        // Save photo directly (no approval needed for photo)
+        DB.update(DB.USERS, empUser.id, { photo: compressed });
+        empUser = DB.getById(DB.USERS, empUser.id);
+
+        // Update photo preview
+        var photoEl = document.getElementById('profile-photo-large');
+        photoEl.innerHTML = '<img src="' + compressed + '" alt="Photo"><div class="photo-overlay">📷 Change</div>';
+
+        // Update sidebar avatar
+        document.getElementById('emp-avatar').innerHTML = '<img src="' + compressed + '" alt="">';
+
+        showToast('Photo updated! It will appear on your ID card.', 'success');
+    } catch (err) {
+        showToast('Failed to process photo. Try again.', 'error');
+    }
+}
+
+function saveProfile(e) {
+    e.preventDefault();
+    var updates = { name:document.getElementById('p-name').value.trim(), phone:document.getElementById('p-phone').value,
+        designation:document.getElementById('p-desg').value, department:document.getElementById('p-dept').value,
+        address:document.getElementById('p-addr').value, aadhar:document.getElementById('p-aadhar').value, pan:document.getElementById('p-pan').value,
+        bankName:document.getElementById('p-bank').value, bankAccount:document.getElementById('p-acc').value, ifsc:document.getElementById('p-ifsc').value };
+
+    var approvalId = DB.nextId('approval');
+    DB.add(DB.APPROVALS, { id:approvalId, type:'profile_update', requestedBy:empUser.id, requestedByName:empUser.name,
+        description:'Profile update request from ' + empUser.name, data:{updates:updates}, status:'pending', createdAt:new Date().toISOString() });
+    DB.addNotification('USR001', empUser.name + ' requested a profile update', 'profile');
+    // Send real email to admin
+    var admin = DB.getById(DB.USERS, 'USR001');
+    if (admin && admin.email) {
+        DB.sendEmail(admin.email, admin.name, 'Profile Update Request: ' + empUser.name,
+            empUser.name + ' has requested a profile update.<br><br>Please review this request in the Approvals section of your admin panel.');
+    }
+    showToast('Profile update sent for admin approval','success');
+}
+
+function showMyIdCard() {
+    empUser = DB.getById(DB.USERS, empUser.id);
+    var initials = empUser.name.split(' ').map(function(n){return n[0]}).join('');
+    var photoHtml = empUser.photo
+        ? '<img src="' + empUser.photo + '" alt="Photo">'
+        : initials;
+
+    document.getElementById('modal-title').textContent = 'My ID Card';
+    document.getElementById('modal-body').innerHTML =
+        '<div id="id-card-print" class="id-card" style="margin:0 auto">' +
+            '<div class="id-card-header"><img src="assets/logo.svg" alt="Logo" style="filter:brightness(10)"><div><div class="title">Raj Indra Professional</div><div class="sub">Talent · Tax · Finance</div></div></div>' +
+            '<div class="id-card-body">' +
+                '<div class="id-card-photo">' + photoHtml + '</div>' +
+                '<div class="id-card-info">' +
+                    '<div class="emp-name">' + empUser.name + '</div><div class="emp-id">' + empUser.employeeId + '</div>' +
+                    '<div class="field"><div class="field-label">Designation</div><div class="field-value">' + (empUser.designation||'—') + '</div></div>' +
+                    '<div class="field"><div class="field-label">Department</div><div class="field-value">' + (empUser.department||'—') + '</div></div>' +
+                    '<div class="field"><div class="field-label">Phone</div><div class="field-value">' + (empUser.phone||'—') + '</div></div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="id-card-footer">Raj Indra Professional · This card is property of Raj Indra Group</div>' +
+        '</div>';
+
+    if (!empUser.photo) {
+        document.getElementById('modal-body').innerHTML +=
+            '<p style="text-align:center;margin-top:14px;font-size:0.8rem;color:var(--warning)">⚠️ Photo not uploaded yet. Go to Profile to upload your photo for the ID Card.</p>';
+    }
+
+    document.getElementById('modal-footer').innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="printEl(\'id-card-print\')">🖨️ Print</button>';
+    openModal();
+}
+
+// ===== LEADS =====
+var leadFilter = 'all';
+function setLeadTab(btn) {
+    document.querySelectorAll('#lead-tabs .tab-btn').forEach(function(b){b.classList.remove('active')});
+    btn.classList.add('active'); leadFilter = btn.dataset.f; renderLeads();
+}
+
+function renderLeads() {
+    var leads = DB.getAll(DB.LEADS).filter(function(l) { return l.assignedTo === empUser.id; });
+    if (leadFilter !== 'all') leads = leads.filter(function(l) { return l.status === leadFilter; });
+    leads.sort(function(a,b) { return new Date(b.createdAt) - new Date(a.createdAt); });
+
+    var badgeMap = {pending:'badge-warning','in-progress':'badge-info',successful:'badge-success',denied:'badge-danger'};
+    document.getElementById('e-lead-tbody').innerHTML = leads.length ? leads.map(function(l) {
+        return '<tr>' +
+            '<td><strong>' + l.clientName + '</strong><br><span style="font-size:0.73rem;color:var(--text-muted)">' + (l.clientEmail||l.clientPhone||'') + '</span></td>' +
+            '<td>' + l.service + '</td><td style="color:var(--success)">₹' + l.payout.toLocaleString() + '</td>' +
+            '<td><span class="badge ' + (badgeMap[l.status]||'badge-muted') + '">' + l.status + '</span></td>' +
+            '<td style="font-size:0.78rem;color:var(--text-muted)">' + new Date(l.createdAt).toLocaleDateString() + '</td>' +
+            '<td><div class="action-btns">' +
+                '<button class="action-btn" title="Mark Successful" onclick="updateLeadSt(\'' + l.id + '\',\'successful\')">✅</button>' +
+                '<button class="action-btn" title="Mark Denied" onclick="updateLeadSt(\'' + l.id + '\',\'denied\')">❌</button>' +
+                '<button class="action-btn" title="In Progress" onclick="updateLeadSt(\'' + l.id + '\',\'in-progress\')">🔄</button>' +
+            '</div></td></tr>';
+    }).join('') : '<tr><td colspan="6" class="empty-state">No leads assigned</td></tr>';
+}
+
+function updateLeadSt(leadId, status) {
+    var result = DB.updateLeadStatus(leadId, status, empUser.id);
+    showToast(result.message, result.pending ? 'info' : 'success');
+    renderLeads();
+}
+
+function openAddLeadModal() {
+    document.getElementById('modal-title').textContent = 'Add New Lead';
+    document.getElementById('modal-body').innerHTML =
+        '<p style="font-size:0.82rem;color:var(--warning);margin-bottom:14px">⚠️ This lead will be sent for admin approval</p>' +
+        '<div class="form-row"><div class="form-group"><label>Client Name *</label><input class="form-input" id="f-el-client"></div>' +
+        '<div class="form-group"><label>Client Phone</label><input class="form-input" id="f-el-phone" inputmode="tel"></div></div>' +
+        '<div class="form-row"><div class="form-group"><label>Client Email</label><input class="form-input" id="f-el-email" type="email"></div>' +
+        '<div class="form-group"><label>Service *</label><select class="form-select" id="f-el-service">' +
+            '<option value="">Select</option><option>ITR Filing</option><option>GST Registration</option><option>GST Return</option><option>Company Registration</option><option>Trademark</option><option>Payroll Management</option><option>Accounting</option><option>Recruitment</option><option>Staffing</option><option>Other</option>' +
+        '</select></div></div>' +
+        '<div class="form-group"><label>Expected Payout (₹)</label><input type="number" class="form-input" id="f-el-payout" inputmode="numeric"></div>' +
+        '<div class="form-group"><label>Notes</label><input class="form-input" id="f-el-notes"></div>';
+    document.getElementById('modal-footer').innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveNewLead()">Submit for Approval</button>';
+    openModal();
+}
+
+function saveNewLead() {
+    var clientName = document.getElementById('f-el-client').value.trim();
+    var service = document.getElementById('f-el-service').value;
+    if (!clientName || !service) { showToast('Client name & service required','error'); return; }
+    DB.createLead({ clientName:clientName, clientPhone:document.getElementById('f-el-phone').value, clientEmail:document.getElementById('f-el-email').value,
+        service:service, charges:0, payout:document.getElementById('f-el-payout').value||0,
+        assignedTo:empUser.id, assignedToName:empUser.name, notes:document.getElementById('f-el-notes').value, createdBy:empUser.id });
+    closeModal(); renderLeads(); showToast('Lead submitted for admin approval','success');
+}
+
+// ===== FINANCE =====
+function renderFinance() {
+    var fin = DB.getFinancials(empUser.id);
+    var invoices = DB.getAll(DB.INVOICES).filter(function(i) { return i.employeeId === empUser.id || i.employeeName === empUser.name; });
+    var totalPaid = invoices.filter(function(i){return i.status==='paid'||i.status==='approved'}).reduce(function(s,i){return s+i.totalAmount},0);
+
+    document.getElementById('e-fin-metrics').innerHTML =
+        '<div class="metric-card"><div class="label">Total Earnings</div><div class="value" style="color:#10B981">₹' + fin.totalPayout.toLocaleString() + '</div><div class="sub">From ' + fin.successful + ' successful leads</div></div>' +
+        '<div class="metric-card"><div class="label">Pending Earnings</div><div class="value" style="color:#F59E0B">₹' + DB.getAll(DB.LEADS).filter(function(l){return l.assignedTo===empUser.id&&(l.status==='pending'||l.status==='in-progress')}).reduce(function(s,l){return s+l.payout},0).toLocaleString() + '</div></div>' +
+        '<div class="metric-card"><div class="label">Invoiced</div><div class="value">₹' + totalPaid.toLocaleString() + '</div><div class="sub">' + invoices.length + ' invoices</div></div>';
+
+    var badgeMap = {pending:'badge-warning',approved:'badge-success',paid:'badge-success'};
+    document.getElementById('e-inv-tbody').innerHTML = invoices.length ? invoices.map(function(inv) {
+        return '<tr>' +
+            '<td style="font-family:monospace">' + inv.invoiceNumber + '</td><td>' + (inv.service||'—') + '</td>' +
+            '<td><strong>₹' + inv.totalAmount.toLocaleString() + '</strong></td><td>' + inv.date + '</td>' +
+            '<td><span class="badge ' + (badgeMap[inv.status]||'badge-muted') + '">' + inv.status + '</span></td>' +
+            '<td><button class="action-btn" onclick="showInvoice(\'' + inv.id + '\')">📄</button></td>' +
+        '</tr>';
+    }).join('') : '<tr><td colspan="6" class="empty-state">No invoices yet</td></tr>';
+}
+
+function openPayoutInvoiceModal() {
+    var fin = DB.getFinancials(empUser.id);
+    document.getElementById('modal-title').textContent = 'Request Payout Invoice';
+    document.getElementById('modal-body').innerHTML =
+        '<p style="font-size:0.82rem;color:var(--warning);margin-bottom:14px">⚠️ Invoice will be sent for admin approval</p>' +
+        '<div class="form-group"><label>Service Description</label><input class="form-input" id="f-pi-service" value="Payout for successful leads"></div>' +
+        '<div class="form-group"><label>Amount (₹)</label><input type="number" class="form-input" id="f-pi-amount" value="' + fin.totalPayout + '" inputmode="numeric"></div>' +
+        '<div class="form-group"><label>Notes</label><input class="form-input" id="f-pi-notes" placeholder="Any additional notes"></div>';
+    document.getElementById('modal-footer').innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitPayoutInvoice()">Submit Invoice</button>';
+    openModal();
+}
+
+function submitPayoutInvoice() {
+    var amt = parseFloat(document.getElementById('f-pi-amount').value)||0;
+    if (!amt) { showToast('Enter amount','error'); return; }
+    DB.createInvoice({ type:'payout', employeeName:empUser.name, employeeId:empUser.id, service:document.getElementById('f-pi-service').value,
+        amount:amt, totalAmount:amt, to:'Raj Indra Group', notes:document.getElementById('f-pi-notes').value, createdBy:empUser.id, date:new Date().toISOString().split('T')[0] });
+    closeModal(); renderFinance(); showToast('Invoice submitted for approval','success');
+}
+
+function showInvoice(invId) {
+    var inv = DB.getById(DB.INVOICES, invId);
+    if (!inv) return;
+    document.getElementById('modal-title').textContent = inv.invoiceNumber;
+    document.getElementById('modal-body').innerHTML =
+        '<div class="invoice-preview" id="invoice-print">' +
+            '<div class="invoice-header"><div><img src="assets/logo.svg" alt="Logo" style="height:40px"><p style="font-size:9px;color:#9CA3AF;margin-top:4px">WorkForce · Taxation · Financial Services</p></div>' +
+            '<div style="text-align:right"><div class="inv-num">' + inv.invoiceNumber + '</div><div class="inv-date">Date: ' + inv.date + '</div></div></div>' +
+            '<div class="invoice-parties"><div><h4>From</h4><p><strong>' + (inv.type==='payout'?empUser.name:'Raj Indra Professional') + '</strong></p></div>' +
+            '<div><h4>To</h4><p><strong>' + (inv.type==='payout'?'Raj Indra Group':inv.clientName||'—') + '</strong></p></div></div>' +
+            '<table class="invoice-table"><thead><tr><th>Description</th><th>Amount</th></tr></thead><tbody>' +
+            '<tr><td>' + (inv.service||'Service') + '</td><td>₹' + inv.amount.toLocaleString() + '</td></tr></tbody></table>' +
+            '<div class="invoice-totals"><table><tr class="total-row"><td>Total</td><td>₹' + inv.totalAmount.toLocaleString() + '</td></tr></table></div>' +
+            '<div class="invoice-footer">Raj Indra Professional · TALENT · TAX · FINANCE</div>' +
+        '</div>';
+    document.getElementById('modal-footer').innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Close</button><button class="btn btn-primary" onclick="printEl(\'invoice-print\')">🖨️ Print</button>';
+    openModal();
+}
+
+function exportMyData() {
+    var leads = DB.getAll(DB.LEADS).filter(function(l){return l.assignedTo===empUser.id});
+    if (!leads.length) { showToast('No data to export','info'); return; }
+    var headers = ['Client','Service','Charges','Payout','Status','Date'];
+    var csv = [headers.join(',')].concat(leads.map(function(l){return '"'+l.clientName+'","'+l.service+'",'+l.charges+','+l.payout+',"'+l.status+'","'+l.createdAt+'"'})).join('\n');
+    var blob = new Blob([csv],{type:'text/csv'}); var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my_leads_' + empUser.employeeId + '.csv'; a.click();
+    showToast('Data exported','success');
+}
+
+// ===== HELPERS =====
+function openModal() { document.getElementById('modal-overlay').classList.add('active'); }
+function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); }
+document.getElementById('modal-overlay').addEventListener('click', function(e) { if(e.target.id==='modal-overlay') closeModal(); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeModal(); });
+
+function printEl(elId) {
+    var el = document.getElementById(elId);
+    var w = window.open('','','width=600,height=500');
+    w.document.write('<html><head><link rel="stylesheet" href="css/styles.css"><style>body{display:flex;justify-content:center;padding:30px;background:white}</style></head><body>' + el.outerHTML + '</body></html>');
+    w.document.close(); setTimeout(function(){w.print()},500);
+}
+
+function toggleNotifPanel() { document.getElementById('notif-panel').classList.toggle('open'); renderNotifications(); }
+
+function renderNotifications() {
+    var notifs = DB.getNotifications(empUser.id);
+    document.getElementById('notif-list').innerHTML = notifs.length ? notifs.map(function(n) {
+        return '<div class="notif-item ' + (n.read?'':'unread') + '" onclick="DB.markNotificationRead(\'' + n.id + '\');renderNotifications();updateNotifBadge()">' +
+            '<div>' + n.message + '</div><div class="time">' + timeAgo(n.createdAt) + '</div></div>';
+    }).join('') : '<div class="empty-state" style="padding:40px"><h3>No notifications</h3></div>';
+    updateNotifBadge();
+}
+
+function updateNotifBadge() {
+    var count = DB.getUnreadCount(empUser.id);
+    var el = document.getElementById('notif-count');
+    el.textContent = count; el.style.display = count > 0 ? '' : 'none';
+}
+
+function showToast(msg, type) {
+    type = type || 'info';
+    var c = document.getElementById('toast-container');
+    var t = document.createElement('div'); t.className='toast ' + type;
+    t.innerHTML = '<div class="toast-icon">' + ({success:'✓',error:'✕',info:'ℹ'}[type]) + '</div><span>' + msg + '</span>';
+    c.appendChild(t); setTimeout(function(){t.remove()},3000);
+}
+
+function timeAgo(d) {
+    var s = Math.floor((Date.now()-new Date(d))/1000);
+    if(s<60) return 'Just now'; if(s<3600) return Math.floor(s/60)+'m ago';
+    if(s<86400) return Math.floor(s/3600)+'h ago'; return Math.floor(s/86400)+'d ago';
+}
+
+// INIT
+renderDashboard();
+
+// Listen for Firebase cloud sync — auto-refresh UI
+window.addEventListener('db-synced', function() {
+    console.log('☁️ Cloud data received — refreshing UI');
+    empUser = DB.getById(DB.USERS, empUser.id);
+    if (empUser) {
+        document.getElementById('emp-name').textContent = empUser.name;
+        document.getElementById('emp-desg').textContent = empUser.designation || 'Associate';
+        var currentPageEl = document.querySelector('.page-section.active');
+        if (currentPageEl) {
+            var pageId = currentPageEl.id.replace('sec-', '');
+            refreshPage(pageId);
+        }
+    }
+    updateNotifBadge();
+});
+</script>
+</body>
+</html>

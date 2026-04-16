@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Raj Indra Professional — WorkForce, Taxation & Financial Services Portal">
+    <meta name="theme-color" content="#0B0F1A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Raj Indra Professional — Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-bg"></div>
+        <div class="particles" id="particles"></div>
+
+        <div class="login-container">
+            <div class="login-card">
+                <!-- Logo -->
+                <div class="login-logo">
+                    <img src="assets/logo.svg" alt="Raj Indra Professional">
+                    <p style="margin-top:4px;">Talent · Tax · Finance</p>
+                </div>
+
+                <div id="login-error" class="login-error"></div>
+                <div id="login-success" class="login-success"></div>
+
+                <!-- LOGIN FORM -->
+                <div id="section-login" class="form-section active">
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <div class="input-wrapper">
+                                <svg class="form-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+                                <input type="email" class="form-input has-icon" id="login-email" placeholder="Enter your email" required autocomplete="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="input-wrapper">
+                                <svg class="form-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                <input type="password" class="form-input has-icon" id="login-password" placeholder="Enter your password" required style="padding-right:44px;" autocomplete="current-password">
+                                <button type="button" class="eye-toggle" onclick="togglePassword('login-password', this)">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="login-btn" style="margin-top:6px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                            Sign In
+                        </button>
+                    </form>
+                    <div class="login-footer">
+                        <p style="color:var(--text-muted); font-size:0.85rem;">New Associate? <a href="#" onclick="showSection('register')">Register Profile</a></p>
+                    </div>
+                </div>
+
+                <!-- REGISTER FORM -->
+                <div id="section-register" class="form-section">
+                    <h2 style="font-size:1.15rem; margin-bottom:4px;">Associate Registration</h2>
+                    <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom:16px;">Your details & photo will be used for ID Card generation</p>
+
+                    <form id="register-form" onsubmit="handleRegister(event)">
+                        <!-- Photo Upload -->
+                        <div class="photo-upload-wrapper">
+                            <div class="photo-preview" id="reg-photo-preview" onclick="document.getElementById('reg-photo-input').click()">
+                                <div class="placeholder-icon">📷</div>
+                                <div class="placeholder-text">Tap to upload passport photo</div>
+                            </div>
+                            <label class="photo-upload-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                Upload Photo
+                                <input type="file" id="reg-photo-input" accept="image/*" capture="user" onchange="handlePhotoUpload(this, 'reg-photo-preview')">
+                            </label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" class="form-input" id="reg-name" placeholder="Enter full name" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" class="form-input" id="reg-email" placeholder="Enter email" required autocomplete="email">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone *</label>
+                                <input type="tel" class="form-input" id="reg-phone" placeholder="+91 XXXXX XXXXX" required autocomplete="tel">
+                            </div>
+                            <div class="form-group">
+                                <label>Password *</label>
+                                <div class="input-wrapper">
+                                    <input type="password" class="form-input" id="reg-password" placeholder="Create password" required style="padding-right:44px;" autocomplete="new-password">
+                                    <button type="button" class="eye-toggle" onclick="togglePassword('reg-password', this)">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Designation</label>
+                                <select class="form-select" id="reg-designation">
+                                    <option value="">Select</option>
+                                    <option value="Tax Consultant">Tax Consultant</option>
+                                    <option value="Financial Advisor">Financial Advisor</option>
+                                    <option value="HR Executive">HR Executive</option>
+                                    <option value="Recruitment Specialist">Recruitment Specialist</option>
+                                    <option value="Accountant">Accountant</option>
+                                    <option value="Business Development">Business Development</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Department</label>
+                                <select class="form-select" id="reg-department">
+                                    <option value="">Select</option>
+                                    <option value="Taxation">Taxation</option>
+                                    <option value="Financial Services">Financial Services</option>
+                                    <option value="WorkForce / HR">WorkForce / HR</option>
+                                    <option value="Recruitment">Recruitment</option>
+                                    <option value="Operations">Operations</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" class="form-input" id="reg-address" placeholder="Full address" autocomplete="street-address">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Aadhar Number</label>
+                                <input type="text" class="form-input" id="reg-aadhar" placeholder="XXXX XXXX XXXX" inputmode="numeric">
+                            </div>
+                            <div class="form-group">
+                                <label>PAN Number</label>
+                                <input type="text" class="form-input" id="reg-pan" placeholder="ABCDE1234F">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand btn-full" id="reg-btn" style="margin-top:8px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                            Submit Registration
+                        </button>
+                    </form>
+                    <div class="login-footer">
+                        <p style="color:var(--text-muted); font-size:0.85rem;">Already registered? <a href="#" onclick="showSection('login')">Sign In</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align:center; color:var(--text-muted); font-size:0.7rem; margin-top:14px;">
+                © 2026 Raj Indra Professional · TALENT · TAX · FINANCE
+            </p>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Firebase SDK (compat for static sites) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        // Check if already logged in
+        const session = DB.getSession();
+        if (session && session.user) {
+            window.location.href = session.role === 'admin' ? 'admin.html' : 'employee.html';
+        }
+
+        // Variable to store uploaded photo
+        let regPhotoData = '';
+
+        // Particle Animation
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 4 + 2;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+
+        // Section Toggle
+        function showSection(section) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-' + section).classList.add('active');
+            hideMessages();
+        }
+
+        // Password Toggle
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const isHidden = input.type === 'password';
+            input.type = isHidden ? 'text' : 'password';
+            btn.innerHTML = isHidden
+                ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+                : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+        }
+
+        function hideMessages() {
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('login-success').style.display = 'none';
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('login-error');
+            el.textContent = msg;
+            el.style.display = 'block';
+            document.getElementById('login-success').style.display = 'none';
+        }
+
+        function showSuccess(msg) {
+            const el = document.getElementById('login-success');
+            el.textContent = msg;
+            el.style.display = 'block';
+            document.getElementById('login-error').style.display = 'none';
+        }
+
+        // Photo Upload Handler
+        async function handlePhotoUpload(input, previewId) {
+            const file = input.files[0];
+            if (!file) return;
+
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Photo size must be less than 5MB', 'error');
+                return;
+            }
+
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                showToast('Please select a valid image file', 'error');
+                return;
+            }
+
+            try {
+                const compressed = await DB.processPhoto(file);
+                regPhotoData = compressed;
+
+                // Update preview
+                const preview = document.getElementById(previewId);
+                preview.innerHTML = '<img src="' + compressed + '" alt="Photo">';
+                showToast('Photo uploaded successfully!', 'success');
+            } catch (err) {
+                showToast('Failed to process photo. Try again.', 'error');
+            }
+        }
+
+        // Login Handler
+        function handleLogin(e) {
+            e.preventDefault();
+            hideMessages();
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            const result = DB.login(email, password);
+            if (result.success) {
+                const btn = document.getElementById('login-btn');
+                btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Signing in...';
+                btn.disabled = true;
+
+                setTimeout(function() {
+                    window.location.href = result.user.role === 'admin' ? 'admin.html' : 'employee.html';
+                }, 800);
+            } else {
+                showError(result.message);
+            }
+        }
+
+        // Register Handler
+        function handleRegister(e) {
+            e.preventDefault();
+            hideMessages();
+
+            const data = {
+                name: document.getElementById('reg-name').value.trim(),
+                email: document.getElementById('reg-email').value.trim(),
+                phone: document.getElementById('reg-phone').value.trim(),
+                password: document.getElementById('reg-password').value,
+                designation: document.getElementById('reg-designation').value,
+                department: document.getElementById('reg-department').value,
+                address: document.getElementById('reg-address').value.trim(),
+                aadhar: document.getElementById('reg-aadhar').value.trim(),
+                pan: document.getElementById('reg-pan').value.trim(),
+                photo: regPhotoData
+            };
+
+            const result = DB.register(data);
+            if (result.success) {
+                showSuccess(result.message);
+                document.getElementById('register-form').reset();
+                // Reset photo preview
+                document.getElementById('reg-photo-preview').innerHTML = '<div class="placeholder-icon">📷</div><div class="placeholder-text">Tap to upload passport photo</div>';
+                regPhotoData = '';
+                setTimeout(function() { showSection('login'); }, 3000);
+            } else {
+                showError(result.message);
+            }
+        }
+
+        function showToast(msg, type) {
+            type = type || 'info';
+            var container = document.getElementById('toast-container');
+            var icons = { success: '✓', error: '✕', info: 'ℹ' };
+            var t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.innerHTML = '<div class="toast-icon">' + icons[type] + '</div><span>' + msg + '</span>';
+            container.appendChild(t);
+            setTimeout(function() { t.remove(); }, 3000);
+        }
+    </script>
+    <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @-webkit-keyframes spin { to { -webkit-transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
