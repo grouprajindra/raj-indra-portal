@@ -700,7 +700,7 @@ function renderApprovals() {
     approvals.sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt)});
     var c = document.getElementById('approvals-list');
     c.innerHTML = approvals.length ? approvals.map(function(a) {
-        var icons = {registration:'👤',lead_update:'📋',invoice:'📄',profile_update:'✏️'};
+        var icons = {registration:'👤',lead_update:'📋',invoice:'📄',profile_update:'✏️',password_reset:'🔑'};
         var badge = a.status==='pending'?'badge-warning':a.status==='approved'?'badge-success':'badge-danger';
         return '<div class="card" style="margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">'+
             '<div style="font-size:1.4rem">'+(icons[a.type]||'📌')+'</div>'+
