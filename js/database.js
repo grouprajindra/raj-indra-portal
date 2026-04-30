@@ -51,7 +51,7 @@ const DB = {
                 role: 'admin',
                 status: 'approved',
                 photo: '',
-                address: 'Head Office, New Delhi',
+                address: 'Head Office, Jaipur',
                 aadhar: '',
                 pan: '',
                 bankName: '',
@@ -752,6 +752,27 @@ const DB = {
                     `Profile Update ${action.charAt(0).toUpperCase() + action.slice(1)}`,
                     `Your profile update request has been <strong>${action}</strong> by admin.`
                 );
+            }
+        } else if (approval.type === 'password_reset') {
+            if (action === 'approved') {
+                // Generate a temporary password
+                const tempPass = 'Raj' + Math.floor(1000 + Math.random() * 9000);
+                this.update(this.USERS, approval.requestedBy, { password: tempPass });
+                this.addNotification(approval.requestedBy, `Your password has been reset. New temporary password: ${tempPass}. Please change it after login.`, 'password_reset');
+                if (userEmail) {
+                    this.sendEmail(userEmail, userName,
+                        'Password Reset - Raj Indra Professional',
+                        `Dear ${userName},<br><br>Your password has been reset by admin.<br><br><strong>New Temporary Password:</strong> ${tempPass}<br><br>Please login and change your password from your profile settings.<br><br>If you did not request this, please contact admin immediately.`
+                    );
+                }
+            } else {
+                this.addNotification(approval.requestedBy, `Your password reset request has been rejected. Please contact admin.`, 'password_reset');
+                if (userEmail) {
+                    this.sendEmail(userEmail, userName,
+                        'Password Reset Request Rejected',
+                        `Dear ${userName},<br><br>Your password reset request has been <strong>rejected</strong> by admin.<br>Please contact admin directly for assistance.`
+                    );
+                }
             }
         }
     },
