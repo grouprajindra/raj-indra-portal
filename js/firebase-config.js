@@ -16,12 +16,12 @@
 */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB9FUYiWq5iz1WtVrqm8D5HDFq685os-bo",
-    authDomain: "raj-indra-portal-b5eda.firebaseapp.com",
-    projectId: "raj-indra-portal-b5eda",
-    storageBucket: "raj-indra-portal-b5eda.firebasestorage.app",
-    messagingSenderId: "181766440267",
-    appId: "1:181766440267:web:70b8d87701838f1ea514ce"
+  apiKey: "AIzaSyB9FUYiWq5iz1WtVrqm8D5HDFq685os-bo",
+  authDomain: "raj-indra-portal-b5eda.firebaseapp.com",
+  projectId: "raj-indra-portal-b5eda",
+  storageBucket: "raj-indra-portal-b5eda.firebasestorage.app",
+  messagingSenderId: "181766440267",
+  appId: "1:181766440267:web:70b8d87701838f1ea514ce"
 };
 
 // ===== DO NOT MODIFY BELOW THIS LINE =====
